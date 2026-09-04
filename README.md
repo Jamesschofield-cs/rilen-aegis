@@ -42,3 +42,18 @@ AEGIS is RILEN's security and governance subsystem. It is being developed to mon
   Defender command failure and invalid-date results both produced the
   expected incomplete-check message without crashing or changing
   Windows security settings.
+
+## Audit Logging
+
+AEGIS saves security-check reports to `logs/aegis.log`.
+
+- Each entry includes a timestamp with the local time-zone offset.
+- New reports are appended, preserving previous entries.
+- Generated logs are excluded from Git through `.gitignore`.
+- If saving fails, AEGIS returns the security report with a warning.
+
+Testing:
+
+- Two live checks produced two separate timestamped log entries.
+- Git confirmed that the generated log is ignored.
+- A simulated log-writing failure produced the expected warning.

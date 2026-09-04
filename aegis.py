@@ -1,5 +1,16 @@
 from datetime import datetime
 import subprocess
+from pathlib import Path
+
+def write_audit_log(message):
+    log_folder = Path(__file__).resolve().parent / "logs"
+    log_folder.mkdir(exist_ok=True)
+    log_file = log_folder / "aegis.log"
+
+    timestamp = datetime.now().astimezone().isoformat(timespec="seconds")
+
+    with log_file.open("a", encoding="utf-8") as log:
+        log.write(f"{timestamp} | {message}\n")
 
 def check_firewall():
     # Check Windows Firewall
@@ -61,7 +72,7 @@ def check_defender():
 
     return defender_ok, signatures_current
 
-def security_check():
+def generate_security_report():
 
     firewall_ok = check_firewall()
     if firewall_ok is None:
@@ -86,3 +97,13 @@ def security_check():
 
     else:
         return "AEGIS security alert. Microsoft Defender requires attention."
+
+def security_check():
+    report = generate_security_report()
+
+    try:
+        write_audit_log(report)
+    except OSError:
+        return report + " Warning: AEGIS could not save the audit log."
+
+    return report
