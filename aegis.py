@@ -2,20 +2,22 @@ from datetime import datetime
 import subprocess
 
 def check_firewall():
+    # Check Windows Firewall
+    firewall = subprocess.run(
+        ["powershell", "-Command",
+         "Get-NetFirewallProfile | Select-Object Name, Enabled"],
+        capture_output=True,
+        text=True
+    )
 
-       # Check Windows Firewall
-        firewall = subprocess.run(
-            ["powershell", "-Command",
-            "Get-NetFirewallProfile | Select-Object Name, Enabled"],
-            capture_output=True,
-            text=True
-        )
-    
-        print("WINDOWS FIREWALL")
-        print(firewall.stdout)
-    
-        firewall_ok = "False" not in firewall.stdout
-        return firewall_ok
+    print("WINDOWS FIREWALL")
+    print(firewall.stdout)
+
+    if firewall.returncode != 0 or not firewall.stdout.strip():
+        return None
+
+    firewall_ok = "False" not in firewall.stdout
+    return firewall_ok
 
 def check_defender():
 
@@ -52,6 +54,8 @@ def check_defender():
 def security_check():
 
     firewall_ok = check_firewall()
+    if firewall_ok is None:
+        return "AEGIS security check incomplete. Unable to verify Windows Firewall status."
 
     defender_ok, signatures_current = check_defender()
 

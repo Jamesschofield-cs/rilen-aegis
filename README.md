@@ -30,3 +30,8 @@ AEGIS is RILEN's security and governance subsystem. It is being developed to mon
   as PowerShell instructions.
 - Manual test: RILEN spoke its greeting and goodbye successfully,
   recognised the exit command, and closed without visible errors.
+  - AEGIS reports the security check as incomplete if the firewall command
+  fails or returns no output.
+- Testing: the live security check completed successfully. A simulated
+  command failure produced the expected incomplete-check message without
+  changing Windows security settings.
