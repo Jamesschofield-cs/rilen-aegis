@@ -88,4 +88,7 @@ unknown result, even when its output appears to show enabled profiles.
 The test uses simulated command results and does not run PowerShell
 or change Windows security settings.
 
-Test result: 1 automated test passed.
+The second test verifies that empty firewall output returns an unknown
+result, even when the command reports success.
+
+Test result: 2 automated tests passed.

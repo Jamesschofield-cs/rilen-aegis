@@ -19,6 +19,18 @@ class TestFirewallChecks(unittest.TestCase):
 
         self.assertIsNone(result)
 
+    def test_empty_firewall_output_returns_unknown(self):
+        empty_result = CompletedProcess(
+            args=[],
+            returncode=0,
+            stdout="",
+            stderr=""
+        )
+
+        with patch("aegis.subprocess.run", return_value=empty_result):
+            result = aegis.check_firewall()
+
+        self.assertIsNone(result)
 
 if __name__ == "__main__":
     unittest.main()
