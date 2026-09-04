@@ -35,11 +35,21 @@ def check_defender():
     print(defender.stdout)
 
     defender_lines = defender.stdout.strip().splitlines()
+    if (
+        defender.returncode != 0
+        or len(defender_lines) != 3
+        or defender_lines[1] not in ("True", "False")
+        or defender_lines[2] not in ("True", "False")
+    ):
+        return None, None
 
-    signature_time = datetime.strptime(
-    defender_lines[0],
-    "%Y-%m-%d %H:%M:%S"
-    )
+    try:
+        signature_time = datetime.strptime(
+            defender_lines[0],
+            "%Y-%m-%d %H:%M:%S"
+        )
+    except ValueError:
+        return None, None
 
     antivirus_enabled = defender_lines[1] == "True"
     realtime_enabled = defender_lines[2] == "True"
@@ -58,6 +68,8 @@ def security_check():
         return "AEGIS security check incomplete. Unable to verify Windows Firewall status."
 
     defender_ok, signatures_current = check_defender()
+    if defender_ok is None or signatures_current is None:
+        return "AEGIS security check incomplete. Unable to verify Microsoft Defender status."
 
         # Create AEGIS report
     if firewall_ok and defender_ok and signatures_current:

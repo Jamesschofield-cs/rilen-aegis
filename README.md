@@ -35,3 +35,10 @@ AEGIS is RILEN's security and governance subsystem. It is being developed to mon
 - Testing: the live security check completed successfully. A simulated
   command failure produced the expected incomplete-check message without
   changing Windows security settings.
+  - AEGIS checks Microsoft Defender command results for failures, missing
+  data, unexpected protection values and unreadable update dates.
+  Results that cannot be verified produce an incomplete-check message.
+- Testing: the live security check completed successfully. Simulated
+  Defender command failure and invalid-date results both produced the
+  expected incomplete-check message without crashing or changing
+  Windows security settings.
