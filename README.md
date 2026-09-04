@@ -73,3 +73,19 @@ Testing:
 - The voice command displayed the log and spoke its confirmation.
 - RILEN exited successfully after the voice test.
 - With six simulated entries, the viewer displayed only entries 2–6.
+
+## Automated Tests
+
+Run the tests from the project folder:
+
+```powershell
+python -m unittest test_aegis -v
+```
+
+The first test verifies that a failed firewall command returns an
+unknown result, even when its output appears to show enabled profiles.
+
+The test uses simulated command results and does not run PowerShell
+or change Windows security settings.
+
+Test result: 1 automated test passed.
