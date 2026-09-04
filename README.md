@@ -22,3 +22,11 @@ AEGIS is RILEN's security and governance subsystem. It is being developed to mon
 
 - `hello.py` - Main RILEN voice assistant
 - `aegis.py` - AEGIS security checks and reporting
+
+## Security Improvements
+
+- Speech text is passed to PowerShell through standard input, separately
+  from the command code. This prevents spoken text from being interpreted
+  as PowerShell instructions.
+- Manual test: RILEN spoke its greeting and goodbye successfully,
+  recognised the exit command, and closed without visible errors.

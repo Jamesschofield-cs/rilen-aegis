@@ -8,13 +8,19 @@ import aegis
 recognizer = sr.Recognizer()
 
 def speak(text):
-    subprocess.run([
-        "powershell",
-        "-Command",
-        "Add-Type -AssemblyName System.Speech; "
-        "$voice = New-Object System.Speech.Synthesis.SpeechSynthesizer; "
-        f'$voice.Speak("{text}")'
-    ])
+    subprocess.run(
+        [
+            "powershell",
+            "-NoProfile",
+            "-Command",
+            "Add-Type -AssemblyName System.Speech; "
+            "$voice = New-Object System.Speech.Synthesis.SpeechSynthesizer; "
+            "$text = [Console]::In.ReadToEnd(); "
+            "$voice.Speak($text)"
+        ],
+        input=text,
+        text=True
+    )
 
 name = input("What is your name? ")
 print("Hello, " + name + "!")
