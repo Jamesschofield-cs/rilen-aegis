@@ -81,6 +81,11 @@ while True:
         result = aegis.security_check()
         print(result)
         speak(result)
+
+    elif command == "show security log":
+        result = aegis.view_audit_log()
+        print(result)
+        speak("The audit log result is displayed in the terminal.")
         
     elif command == "time":
         current_time = datetime.now()

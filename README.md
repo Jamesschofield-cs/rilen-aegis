@@ -57,3 +57,19 @@ Testing:
 - Two live checks produced two separate timestamped log entries.
 - Git confirmed that the generated log is ignored.
 - A simulated log-writing failure produced the expected warning.
+
+## Audit Log Viewer
+
+Say "RILEN, show security log" to display the five most recent
+audit-log entries in the terminal, with a short spoken confirmation.
+
+- Viewing the log does not run a security check or change the log.
+- Missing, empty or unreadable logs produce an explanatory message.
+- Entries are displayed oldest to newest within the latest five.
+
+Testing:
+
+- The viewer displayed the two existing security-check entries.
+- The voice command displayed the log and spoke its confirmation.
+- RILEN exited successfully after the voice test.
+- With six simulated entries, the viewer displayed only entries 2–6.

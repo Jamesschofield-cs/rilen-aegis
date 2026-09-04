@@ -1,6 +1,7 @@
 from datetime import datetime
 import subprocess
 from pathlib import Path
+from collections import deque
 
 def write_audit_log(message):
     log_folder = Path(__file__).resolve().parent / "logs"
@@ -107,3 +108,20 @@ def security_check():
         return report + " Warning: AEGIS could not save the audit log."
 
     return report
+
+def view_audit_log():
+    log_file = Path(__file__).resolve().parent / "logs" / "aegis.log"
+
+    try:
+        with log_file.open("r", encoding="utf-8") as log:
+            entries = deque(log, maxlen=5)
+    except FileNotFoundError:
+        return "No AEGIS audit log exists yet. Run a security check first."
+    except (OSError, UnicodeError):
+        return "AEGIS could not read the audit log."
+
+    recent_entries = "".join(entries).strip()
+    if not recent_entries:
+        return "The AEGIS audit log is empty. Run a security check first."
+
+    return "Recent AEGIS security checks:\n" + recent_entries
