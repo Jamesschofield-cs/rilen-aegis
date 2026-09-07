@@ -91,4 +91,11 @@ or change Windows security settings.
 The second test verifies that empty firewall output returns an unknown
 result, even when the command reports success.
 
-Test result: 2 automated tests passed.
+The third test verifies that a failed Microsoft Defender command returns
+unknown values for protection status and security intelligence freshness,
+even when its output contains a valid timestamp and enabled protection states.
+
+All three tests use simulated command results. They do not run PowerShell
+or change Windows security settings.
+
+Test result: 3 automated tests passed.
