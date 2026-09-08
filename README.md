@@ -101,7 +101,11 @@ profile returns False.
 The fifth test verifies that a successful firewall command with all three
 profiles enabled returns True.
 
-All five tests use simulated command results. They do not run PowerShell
+The sixth test verifies that a successful Microsoft Defender command with
+incomplete output returns unknown values for protection status and security
+intelligence freshness.
+
+All six tests use simulated command results. They do not run PowerShell
 or change Windows security settings.
 
-Test result: 5 automated tests passed.
+Test result: 6 automated tests passed.

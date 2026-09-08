@@ -60,6 +60,20 @@ class TestFirewallChecks(unittest.TestCase):
         self.assertIsNone(result)
 
 class TestDefenderChecks(unittest.TestCase):
+
+    def test_incomplete_defender_output_returns_unknown(self):
+        incomplete_result = CompletedProcess(
+            args=[],
+            returncode=0,
+            stdout="2026-09-07 10:00:00\nTrue\n",
+            stderr=""
+        )
+
+        with patch("aegis.subprocess.run", return_value=incomplete_result):
+            result = aegis.check_defender()
+
+        self.assertEqual(result, (None, None))
+
     def test_failed_defender_command_returns_unknown(self):
         failed_result = CompletedProcess(
             args=[],
