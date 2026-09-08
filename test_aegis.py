@@ -62,6 +62,22 @@ class TestFirewallChecks(unittest.TestCase):
 
 class TestDefenderChecks(unittest.TestCase):
 
+    def test_disabled_defender_protection_returns_false(self):
+        disabled_result = CompletedProcess(
+            args=[],
+            returncode=0,
+            stdout="2026-09-07 10:00:00\nTrue\nFalse\n",
+            stderr=""
+        )
+
+        with patch("aegis.subprocess.run", return_value=disabled_result):
+            with patch("aegis.datetime", wraps=datetime) as mock_datetime:
+                mock_datetime.now.return_value = datetime(2026, 9, 8, 10, 0, 0)
+                result = aegis.check_defender()
+
+        self.assertEqual(result, (False, True))
+
+
     def test_healthy_defender_returns_true_values(self):
         healthy_result = CompletedProcess(
             args=[],

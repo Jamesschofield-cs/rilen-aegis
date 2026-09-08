@@ -118,7 +118,11 @@ protection status and security intelligence freshness when both protections
 are enabled and the updates are one day old. A fixed clock keeps the test
 consistent whenever it runs.
 
-All nine tests use simulated command results. They do not run PowerShell
+The tenth test verifies that disabled real-time protection returns False for
+Defender protection status while one-day-old updates return True for security
+intelligence freshness. A fixed clock keeps the test consistent.
+
+All ten tests use simulated command results. They do not run PowerShell
 or change Windows security settings.
 
-Test result: 9 automated tests passed.
+Test result: 10 automated tests passed.
