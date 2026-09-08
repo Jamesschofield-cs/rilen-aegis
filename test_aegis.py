@@ -62,6 +62,22 @@ class TestFirewallChecks(unittest.TestCase):
 
 class TestDefenderChecks(unittest.TestCase):
 
+    def test_outdated_defender_updates_returns_false(self):
+        outdated_result = CompletedProcess(
+            args=[],
+            returncode=0,
+            stdout="2026-09-04 10:00:00\nTrue\nTrue\n",
+            stderr=""
+        )
+
+        with patch("aegis.subprocess.run", return_value=outdated_result):
+            with patch("aegis.datetime", wraps=datetime) as mock_datetime:
+                mock_datetime.now.return_value = datetime(2026, 9, 8, 10, 0, 0)
+                result = aegis.check_defender()
+
+        self.assertEqual(result, (True, False))
+
+
     def test_disabled_defender_protection_returns_false(self):
         disabled_result = CompletedProcess(
             args=[],
