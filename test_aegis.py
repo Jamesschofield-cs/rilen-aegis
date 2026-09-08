@@ -1,6 +1,7 @@
 import unittest
 from subprocess import CompletedProcess
 from unittest.mock import patch
+from datetime import datetime
 
 import aegis
 
@@ -60,6 +61,22 @@ class TestFirewallChecks(unittest.TestCase):
         self.assertIsNone(result)
 
 class TestDefenderChecks(unittest.TestCase):
+
+    def test_healthy_defender_returns_true_values(self):
+        healthy_result = CompletedProcess(
+            args=[],
+            returncode=0,
+            stdout="2026-09-07 10:00:00\nTrue\nTrue\n",
+            stderr=""
+        )
+
+        with patch("aegis.subprocess.run", return_value=healthy_result):
+            with patch("aegis.datetime", wraps=datetime) as mock_datetime:
+                mock_datetime.now.return_value = datetime(2026, 9, 8, 10, 0, 0)
+                result = aegis.check_defender()
+
+        self.assertEqual(result, (True, True))
+
 
     def test_invalid_defender_protection_value_returns_unknown(self):
         invalid_protection_result = CompletedProcess(

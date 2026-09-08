@@ -113,7 +113,12 @@ The eighth test verifies that a successful Microsoft Defender command with
 an invalid antivirus protection value returns unknown values for protection
 status and security intelligence freshness.
 
-All eight tests use simulated command results. They do not run PowerShell
+The ninth test verifies that Microsoft Defender returns True for both
+protection status and security intelligence freshness when both protections
+are enabled and the updates are one day old. A fixed clock keeps the test
+consistent whenever it runs.
+
+All nine tests use simulated command results. They do not run PowerShell
 or change Windows security settings.
 
-Test result: 8 automated tests passed.
+Test result: 9 automated tests passed.
