@@ -95,7 +95,10 @@ The third test verifies that a failed Microsoft Defender command returns
 unknown values for protection status and security intelligence freshness,
 even when its output contains a valid timestamp and enabled protection states.
 
-All three tests use simulated command results. They do not run PowerShell
+The fourth test verifies that a successful firewall command with a disabled
+profile returns False.
+
+All four tests use simulated command results. They do not run PowerShell
 or change Windows security settings.
 
-Test result: 3 automated tests passed.
+Test result: 4 automated tests passed.
