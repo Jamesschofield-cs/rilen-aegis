@@ -6,6 +6,20 @@ import aegis
 
 class TestFirewallChecks(unittest.TestCase):
 
+    def test_all_firewall_profiles_enabled_returns_true(self):
+        enabled_result = CompletedProcess(
+            args=[],
+            returncode=0,
+            stdout="Domain True\nPrivate True\nPublic True\n",
+            stderr=""
+        )
+
+        with patch("aegis.subprocess.run", return_value=enabled_result):
+            result = aegis.check_firewall()
+
+        self.assertIs(result, True)
+
+
     def test_disabled_firewall_profile_returns_false(self):
         disabled_result = CompletedProcess(
             args=[],
@@ -18,7 +32,7 @@ class TestFirewallChecks(unittest.TestCase):
             result = aegis.check_firewall()
 
         self.assertIs(result, False)
-        
+
     def test_failed_firewall_command_returns_unknown(self):
         failed_result = CompletedProcess(
             args=[],

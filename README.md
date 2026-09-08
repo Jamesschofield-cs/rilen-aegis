@@ -98,7 +98,10 @@ even when its output contains a valid timestamp and enabled protection states.
 The fourth test verifies that a successful firewall command with a disabled
 profile returns False.
 
-All four tests use simulated command results. They do not run PowerShell
+The fifth test verifies that a successful firewall command with all three
+profiles enabled returns True.
+
+All five tests use simulated command results. They do not run PowerShell
 or change Windows security settings.
 
-Test result: 4 automated tests passed.
+Test result: 5 automated tests passed.
