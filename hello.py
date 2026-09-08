@@ -13,13 +13,15 @@ def speak(text):
             "powershell",
             "-NoProfile",
             "-Command",
+            "[Console]::InputEncoding = [System.Text.Encoding]::UTF8; "
             "Add-Type -AssemblyName System.Speech; "
             "$voice = New-Object System.Speech.Synthesis.SpeechSynthesizer; "
             "$text = [Console]::In.ReadToEnd(); "
             "$voice.Speak($text)"
         ],
         input=text,
-        text=True
+        text=True,
+        encoding="utf-8"
     )
 
 name = input("What is your name? ")
@@ -143,9 +145,24 @@ while True:
         print("Opening YouTube...")
 
     elif command.startswith("weather in "):
-        city = command.replace("weather in ", "")
-        response = requests.get("https://wttr.in/" + city + "?format=3")
-        message = response.text
+        city = command.replace("weather in ", "", 1).strip()
+
+        if not city:
+            message = "Please name a city. For example, weather in Leeds."
+        else:
+            try:
+                response = requests.get(
+                    "https://wttr.in/" + city,
+                    params={"format": "3"},
+                    timeout=10
+                )
+                response.raise_for_status()
+                message = response.text.strip()
+                if not message:
+                    message = "The weather service returned no information. Please try again."
+            except requests.exceptions.RequestException:
+                message = "I couldn't get the weather right now. Please try again later."
+
         print(message)
         speak(message)
 

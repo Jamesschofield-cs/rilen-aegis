@@ -140,3 +140,17 @@ Manual verification:
 - Both help phrases produced the spoken guide.
 - RILEN responded to the exit command with its goodbye.
 - Both help phrases displayed the full command list in the terminal.
+
+## Weather Reliability
+
+The weather command now uses a network timeout and handles failed requests,
+HTTP errors, and empty responses with explanatory messages.
+
+Speech input uses UTF-8 in Python and PowerShell to support weather symbols
+without the previous encoding crash.
+
+Manual verification:
+- Weather in Leeds was displayed and spoken successfully.
+- A simulated timeout produced the spoken failure message.
+- Time and exit commands worked after both weather responses.
+- The temporary timeout simulation was removed after testing.
