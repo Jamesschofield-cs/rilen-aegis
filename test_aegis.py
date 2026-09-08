@@ -61,6 +61,20 @@ class TestFirewallChecks(unittest.TestCase):
 
 class TestDefenderChecks(unittest.TestCase):
 
+    def test_invalid_defender_timestamp_returns_unknown(self):
+        invalid_date_result = CompletedProcess(
+            args=[],
+            returncode=0,
+            stdout="not-a-date\nTrue\nTrue\n",
+            stderr=""
+        )
+
+        with patch("aegis.subprocess.run", return_value=invalid_date_result):
+            result = aegis.check_defender()
+
+        self.assertEqual(result, (None, None))
+
+
     def test_incomplete_defender_output_returns_unknown(self):
         incomplete_result = CompletedProcess(
             args=[],

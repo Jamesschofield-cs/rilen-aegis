@@ -105,7 +105,11 @@ The sixth test verifies that a successful Microsoft Defender command with
 incomplete output returns unknown values for protection status and security
 intelligence freshness.
 
-All six tests use simulated command results. They do not run PowerShell
+The seventh test verifies that a successful Microsoft Defender command with
+an invalid timestamp returns unknown values for protection status and security
+intelligence freshness, even when both protection values are valid.
+
+All seven tests use simulated command results. They do not run PowerShell
 or change Windows security settings.
 
-Test result: 6 automated tests passed.
+Test result: 7 automated tests passed.
