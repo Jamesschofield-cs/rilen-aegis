@@ -130,3 +130,13 @@ All eleven tests use simulated command results. They do not run PowerShell
 or change Windows security settings.
 
 Test result: 11 automated tests passed.
+
+## Voice Help
+
+Say “RILEN, help” or “RILEN, what can you do” to display the available
+commands in the terminal and hear a spoken guide.
+
+Manual verification:
+- Both help phrases produced the spoken guide.
+- RILEN responded to the exit command with its goodbye.
+- Both help phrases displayed the full command list in the terminal.

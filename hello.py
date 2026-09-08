@@ -66,6 +66,32 @@ while True:
         print(message)
         speak(message)
 
+    elif command in ("help", "what can you do"):
+        message = (
+            "RILEN commands — start each one with 'RILEN':\n"
+            "- say hello\n"
+            "- who are you\n"
+            "- help / what can you do\n"
+            "- ask aegis to run a security check\n"
+            "- show security log\n"
+            "- time\n"
+            "- date\n"
+            "- open notepad\n"
+            "- open google\n"
+            "- search google for [your search]\n"
+            "- open youtube\n"
+            "- weather in [city]\n"
+            "- exit"
+        )
+        print(message)
+        speak(
+            "Start each command with RILEN. "
+            "I can tell you the time and date, open Notepad, Google or YouTube, "
+            "search Google, check the weather, and ask AEGIS to check security "
+            "or show your security log. "
+            "The full command list is displayed in the terminal."
+        )
+
     elif command == "who are you":
         message = "I am RILEN. Reasoning Intelligence for Learning, Execution and Navigation."
         print(message)
