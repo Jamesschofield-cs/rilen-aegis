@@ -9,6 +9,12 @@ I used Wireshark in a guided home-lab exercise to observe my computer looking up
 3. I stopped the capture and applied the display filter `dns`.
 4. I narrowed the results using `dns.qry.name == "example.com"` and inspected the response details.
 
+## Capture screenshot
+
+![Wireshark DNS request and response packets with endpoint addresses redacted](DNS-redacted-capture.png)
+
+*Original screenshot cropped to the filtered packet list. Source and destination addresses are covered by opaque black boxes; the lower device-details and raw-byte panes are excluded. Visible packet numbers and DNS details are unchanged.*
+
 ## Evidence and findings
 The capture showed four packets for the lookup:
 
