@@ -148,10 +148,13 @@ The eleventh test verifies that enabled Defender protection returns True while
 four-day-old updates return False for security intelligence freshness.
 A fixed clock keeps the test consistent.
 
-All eleven tests use simulated command results. They do not run PowerShell
-or change Windows security settings.
+The twelfth test verifies that a Windows Firewall command timeout returns an unknown result.
 
-Test result: 11 automated tests passed.
+The thirteenth test verifies that a Microsoft Defender command timeout returns unknown values for protection status and security intelligence freshness. Both timeout tests confirm that the command has a 15-second timeout.
+
+All thirteen tests use simulated command results.
+They do not run PowerShell or change Windows security settings.
+Test result: 13 automated tests passed.
 
 ## Voice Help
 

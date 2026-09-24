@@ -15,12 +15,17 @@ def write_audit_log(message):
 
 def check_firewall():
     # Check Windows Firewall
-    firewall = subprocess.run(
-        ["powershell", "-Command",
-         "Get-NetFirewallProfile | Select-Object Name, Enabled"],
-        capture_output=True,
-        text=True
-    )
+    try:
+        firewall = subprocess.run(
+            ["powershell", "-Command",
+             "Get-NetFirewallProfile | Select-Object Name, Enabled"],
+            capture_output=True,
+            text=True,
+            timeout=15,
+        )
+    except subprocess.TimeoutExpired:
+        print("Windows Firewall check timed out.")
+        return None
 
     print("WINDOWS FIREWALL")
     print(firewall.stdout)
@@ -34,14 +39,19 @@ def check_firewall():
 def check_defender():
 
        # Check Microsoft Defender
-    defender = subprocess.run(
-    ["powershell", "-Command",
-    "(Get-MpComputerStatus).AntivirusSignatureLastUpdated.ToString('yyyy-MM-dd HH:mm:ss'); "
-    "(Get-MpComputerStatus).AntivirusEnabled; "
-    "(Get-MpComputerStatus).RealTimeProtectionEnabled"],
-    capture_output=True,
-    text=True
-    )
+    try:
+        defender = subprocess.run(
+            ["powershell", "-Command",
+             "(Get-MpComputerStatus).AntivirusSignatureLastUpdated.ToString('yyyy-MM-dd HH:mm:ss'); "
+             "(Get-MpComputerStatus).AntivirusEnabled; "
+             "(Get-MpComputerStatus).RealTimeProtectionEnabled"],
+            capture_output=True,
+            text=True,
+            timeout=15,
+        )
+    except subprocess.TimeoutExpired:
+        print("Microsoft Defender check timed out.")
+        return None, None
      
     print("MICROSOFT DEFENDER")
     print(defender.stdout)

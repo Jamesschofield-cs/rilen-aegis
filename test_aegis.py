@@ -1,5 +1,5 @@
 import unittest
-from subprocess import CompletedProcess
+from subprocess import CompletedProcess, TimeoutExpired
 from unittest.mock import patch
 from datetime import datetime
 
@@ -60,7 +60,27 @@ class TestFirewallChecks(unittest.TestCase):
 
         self.assertIsNone(result)
 
+    def test_firewall_timeout_returns_unknown(self):
+        with patch(
+            "aegis.subprocess.run",
+            side_effect=TimeoutExpired(cmd="powershell", timeout=15),
+        ) as mock_run:
+            result = aegis.check_firewall()
+
+        self.assertIsNone(result)
+        self.assertEqual(mock_run.call_args.kwargs["timeout"], 15)
+
 class TestDefenderChecks(unittest.TestCase):
+
+    def test_defender_timeout_returns_unknown(self):
+        with patch(
+            "aegis.subprocess.run",
+            side_effect=TimeoutExpired(cmd="powershell", timeout=15),
+        ) as mock_run:
+            result = aegis.check_defender()
+
+        self.assertEqual(result, (None, None))
+        self.assertEqual(mock_run.call_args.kwargs["timeout"], 15)
 
     def test_outdated_defender_updates_returns_false(self):
         outdated_result = CompletedProcess(
