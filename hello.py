@@ -149,6 +149,12 @@ while True:
                 aegis_process.communicate()
                 aegis_process = None
                 message = "AEGIS security check stopped."
+                try:
+                    aegis.write_audit_log(
+                        "AEGIS security check cancelled by RILEN voice command."
+                    )
+                except OSError:
+                    message += " Warning: could not save the cancellation to the audit log."
             else:
                 message = "I could not stop AEGIS. Check the terminal."
 
@@ -222,6 +228,13 @@ while True:
                 if stopped.returncode != 0:
                     print("Could not stop AEGIS; RILEN is staying open.")
                     continue
+
+            try:
+                aegis.write_audit_log(
+                    "AEGIS security check cancelled because RILEN exited."
+                )
+            except OSError:
+                print("Warning: could not save the cancellation to the audit log.")
 
             aegis_process.communicate()
             aegis_process = None
