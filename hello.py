@@ -4,8 +4,11 @@ import webbrowser
 import requests
 import speech_recognition as sr
 import aegis
+import sys
+from pathlib import Path
 
 recognizer = sr.Recognizer()
+aegis_process = None
 
 def speak(text):
     subprocess.run(
@@ -34,6 +37,18 @@ print(intro)
 speak(intro)
 
 while True:
+    if aegis_process is not None and aegis_process.poll() is not None:
+        output, _ = aegis_process.communicate()
+        return_code = aegis_process.returncode
+        aegis_process = None
+
+        if return_code == 0 and output.strip():
+            print(output)
+            report = output.strip().splitlines()[-1]
+            speak(report)
+        else:
+            print(output)
+            speak("AEGIS could not complete the security check.")
     try:
         with sr.Microphone() as source:
             print("Listening...")
@@ -75,6 +90,7 @@ while True:
             "- who are you\n"
             "- help / what can you do\n"
             "- ask aegis to run a security check\n"
+            "- stop aegis / cancel security check\n"
             "- show security log\n"
             "- time\n"
             "- date\n"
@@ -105,10 +121,39 @@ while True:
         "ask aegis to run a security",
         "ask ages to run a security"
 ]:
-        print("Contacting AEGIS...")
-        result = aegis.security_check()
-        print(result)
-        speak(result)
+        if aegis_process is not None and aegis_process.poll() is None:
+            message = "AEGIS is already running a security check."
+        else:
+            aegis_process = subprocess.Popen(
+                [sys.executable, str(Path(__file__).with_name("run_aegis.py"))],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                creationflags=subprocess.CREATE_NEW_PROCESS_GROUP,
+            )
+            message = "AEGIS security check started."
+
+        print(message)
+        speak(message)
+
+    elif command in ("stop aegis", "stop ages", "cancel security check"):
+        if aegis_process is None or aegis_process.poll() is not None:
+            message = "AEGIS is not running a security check."
+        else:
+            stopped = subprocess.run(
+                ["taskkill", "/PID", str(aegis_process.pid), "/T", "/F"],
+                capture_output=True,
+                text=True,
+            )
+            if stopped.returncode == 0:
+                aegis_process.communicate()
+                aegis_process = None
+                message = "AEGIS security check stopped."
+            else:
+                message = "I could not stop AEGIS. Check the terminal."
+
+        print(message)
+        speak(message)
 
     elif command == "show security log":
         result = aegis.view_audit_log()
@@ -167,6 +212,19 @@ while True:
         speak(message)
 
     elif command == "exit":
+        if aegis_process is not None:
+            if aegis_process.poll() is None:
+                stopped = subprocess.run(
+                    ["taskkill", "/PID", str(aegis_process.pid), "/T", "/F"],
+                    capture_output=True,
+                    text=True,
+                )
+                if stopped.returncode != 0:
+                    print("Could not stop AEGIS; RILEN is staying open.")
+                    continue
+
+            aegis_process.communicate()
+            aegis_process = None
         message = "Goodbye, " + name + "!"
         print(message)
         speak(message)

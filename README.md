@@ -160,11 +160,15 @@ Test result: 13 automated tests passed.
 
 Say “RILEN, help” or “RILEN, what can you do” to display the available
 commands in the terminal and hear a spoken guide.
+RILEN runs AEGIS security checks in a separate process, so it can continue listening while a check runs. Say “RILEN, stop AEGIS” or “RILEN, cancel security check” to stop a running check. Saying “RILEN, exit” also stops a running check before RILEN closes. Voice commands depend on speech recognition and are handled when RILEN next listens.
+
 
 Manual verification:
 - Both help phrases produced the spoken guide.
 - RILEN responded to the exit command with its goodbye.
 - Both help phrases displayed the full command list in the terminal.
+- RILEN completed a live AEGIS security check and displayed its report.
+- With a temporary delay in the AEGIS runner, RILEN recognised “stop ages” and stopped the running check. The delay was removed after testing.
 
 ## Weather Reliability
 
