@@ -1,21 +1,25 @@
 # RILEN
 
 **Reasoning Intelligence for Learning, Execution & Navigation**
-RILEN is a Python-based AI assistant being developed as a practical learning project in artificial intelligence, automation and cybersecurity.
+RILEN is a Python-based voice assistant being developed as a practical learning project in artificial intelligence, automation and cybersecurity.
 
 ## AEGIS
 
 **Autonomous Executive for Governance, Intelligence & Security**
-AEGIS is RILEN's security and governance subsystem. It is being developed to monitor system security, identify potential risks and provide clear security reports.
+AEGIS currently performs on-demand Windows Firewall and Microsoft Defender checks and produces a short report. Governance and broader risk analysis are future goals.
 
 ## Current Features
 
 - Voice command recognition
 - Spoken responses using Windows text-to-speech
 - Time and date commands
-- Windows Firewall status monitoring
-- Microsoft Defender status monitoring
+- On-demand Windows Firewall status checks
+- On-demand Microsoft Defender status checks
 - Microsoft Defender security intelligence age checking
+
+## Scope and Limitations
+
+This is a Windows learning project, not a complete security audit or a finished product. AEGIS runs checks when requested; it does not continuously monitor the computer. The automated tests use simulated command results and do not prove that every Windows configuration is handled. RILEN does not yet use an LLM.
 
 ## Project Structure
 
@@ -73,6 +77,24 @@ Testing:
 - The voice command displayed the log and spoke its confirmation.
 - RILEN exited successfully after the voice test.
 - With six simulated entries, the viewer displayed only entries 2–6.
+
+## Running RILEN on Windows
+
+You need Python 3.9 or newer, PowerShell, a working microphone and an internet connection. RILEN uses online speech recognition for voice commands and an online service for weather.
+
+From the project folder, install the Python packages:
+
+```powershell
+python -m pip install requests "SpeechRecognition[audio]"
+```
+
+Start the assistant:
+
+```powershell
+python hello.py
+```
+
+Enter your name when prompted. Begin voice commands with “RILEN”; say “RILEN, help” to see the command list. Say “RILEN, exit” to close it.
 
 ## Automated Tests
 
