@@ -30,6 +30,8 @@ flowchart TD
 - On-demand Windows Firewall status checks
 - On-demand Microsoft Defender status checks
 - Microsoft Defender security intelligence age checking
+- System information command: say “RILEN, system info” to display
+  the Windows edition and version, processor and installed memory.
 
 ## Scope and Limitations
 
@@ -189,13 +191,15 @@ Manual verification:
 - RILEN responded to the exit command with its goodbye.
 - Both help phrases displayed the full command list in the terminal.
 - RILEN completed a live AEGIS security check and displayed its report.
-- With a temporary delay in the AEGIS runner, RILEN recognised “stop ages” and stopped the running check. The delay was removed after testing.
+- With a temporary delay in the AEGIS runner, RILEN recognised “stop ages” and stopped the running check. The delay was  removed after testing.
 - Pressing Ctrl+C while RILEN was listening triggered the exit path
   and returned to the terminal without a traceback.
 - Pressing Ctrl+C during the startup greeting closed RILEN without
   a traceback.
 - After this change, normal startup, listening and the voice exit
   command were manually verified.
+- The system info command displayed Windows, processor and memory
+  details. RILEN continued listening afterwards and exited by voice.
 
 ## Weather Reliability
 

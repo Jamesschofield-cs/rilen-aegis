@@ -99,6 +99,7 @@ while True:
             "- ask aegis to run a security check\n"
             "- stop aegis / cancel security check\n"
             "- show security log\n"
+            "- system info\n"
             "- time\n"
             "- date\n"
             "- open notepad\n"
@@ -172,6 +173,38 @@ while True:
         result = aegis.view_audit_log()
         print(result)
         speak("The audit log result is displayed in the terminal.")
+
+    elif command == "system info":
+        try:
+            result = subprocess.run(
+                [
+                    "powershell",
+                    "-NoProfile",
+                    "-Command",
+                    "$os = Get-CimInstance Win32_OperatingSystem -ErrorAction Stop; "
+                    "$cpu = Get-CimInstance Win32_Processor -ErrorAction Stop; "
+                    "$computer = Get-CimInstance Win32_ComputerSystem -ErrorAction Stop; "
+                    "'Windows: ' + $os.Caption; "
+                    "'Version: ' + $os.Version; "
+                    "'Processor: ' + (($cpu | ForEach-Object { $_.Name }) -join ', '); "
+                    "'Installed memory (GB): ' + "
+                    "[math]::Round($computer.TotalPhysicalMemory / 1GB, 1)"
+                ],
+                capture_output=True,
+                text=True,
+                timeout=15,
+            )
+
+            if result.returncode == 0 and result.stdout.strip():
+                print(result.stdout.strip())
+                speak("Your system information is displayed in the terminal.")
+            else:
+                print("Could not retrieve system information.")
+                speak("I couldn't retrieve the system information.")
+
+        except (subprocess.TimeoutExpired, OSError):
+            print("The system information check timed out or could not start.")
+            speak("I couldn't complete the system information check.")
         
     elif command == "time":
         current_time = datetime.now()
