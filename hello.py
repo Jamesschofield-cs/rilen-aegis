@@ -6,6 +6,8 @@ import speech_recognition as sr
 import aegis
 import sys
 from pathlib import Path
+import shutil
+import os
 
 recognizer = sr.Recognizer()
 aegis_process = None
@@ -100,6 +102,7 @@ while True:
             "- stop aegis / cancel security check\n"
             "- show security log\n"
             "- system info\n"
+            "- disk space\n"
             "- time\n"
             "- date\n"
             "- open notepad\n"
@@ -205,6 +208,31 @@ while True:
         except (subprocess.TimeoutExpired, OSError):
             print("The system information check timed out or could not start.")
             speak("I couldn't complete the system information check.")
+
+    elif command in ("disk space", "disc space"):
+        windows_drive = os.environ.get("SystemDrive", "C:") + "\\"
+
+        try:
+            usage = shutil.disk_usage(windows_drive)
+            total_gib = usage.total / (1024 ** 3)
+            free_gib = usage.free / (1024 ** 3)
+            free_percent = usage.free / usage.total * 100
+
+            print(f"Drive: {windows_drive}")
+            print(f"Total space: {total_gib:.1f} GiB")
+            print(f"Free space: {free_gib:.1f} GiB ({free_percent:.1f}%)")
+
+            if free_percent < 10:
+                message = "Your Windows drive has less than ten percent free space."
+                print("Warning: low disk space.")
+            else:
+                message = "Your Windows drive has at least ten percent free space."
+
+            speak(message)
+
+        except OSError:
+            print("Could not read disk space.")
+            speak("I couldn't read the disk space information.")
         
     elif command == "time":
         current_time = datetime.now()

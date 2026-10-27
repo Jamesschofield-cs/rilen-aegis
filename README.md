@@ -32,6 +32,9 @@ flowchart TD
 - Microsoft Defender security intelligence age checking
 - System information command: say “RILEN, system info” to display
   the Windows edition and version, processor and installed memory.
+- Disk-space command: say “RILEN, disk space” to display total and
+  free space on the Windows drive, with a warning below 10% free.
+  Both “disk space” and “disc space” are accepted.
 
 ## Scope and Limitations
 
@@ -200,6 +203,9 @@ Manual verification:
   command were manually verified.
 - The system info command displayed Windows, processor and memory
   details. RILEN continued listening afterwards and exited by voice.
+- The disk-space command recognised “disc space”, displayed drive
+  capacity and free-space figures, and continued listening.
+  Voice exit worked afterwards. The low-space warning was not tested.
 
 ## Weather Reliability
 
