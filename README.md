@@ -8,6 +8,20 @@ RILEN is a Python-based voice assistant being developed as a practical learning 
 **Autonomous Executive for Governance, Intelligence & Security**
 AEGIS currently performs on-demand Windows Firewall and Microsoft Defender checks and produces a short report. Governance and broader risk analysis are future goals.
 
+## How the security check works
+
+```mermaid
+flowchart TD
+    A[You request a security check] --> B[RILEN recognises the command]
+    B --> C[AEGIS checks security]
+    C --> D[Windows Firewall]
+    C --> E[Microsoft Defender]
+    D --> F[Build security report]
+    E --> F
+    F --> G[Save audit log]
+    F --> H[Return results to RILEN]
+```
+
 ## Current Features
 
 - Voice command recognition
