@@ -186,8 +186,10 @@ Manual verification:
 - With a temporary delay in the AEGIS runner, RILEN recognised “stop ages” and stopped the running check. The delay was removed after testing.
 - Pressing Ctrl+C while RILEN was listening triggered the exit path
   and returned to the terminal without a traceback.
-- Known limitation: Ctrl+C during the startup greeting still raises
-  KeyboardInterrupt; the listening-loop handler does not cover startup.
+- Pressing Ctrl+C during the startup greeting closed RILEN without
+  a traceback.
+- After this change, normal startup, listening and the voice exit
+  command were manually verified.
 
 ## Weather Reliability
 

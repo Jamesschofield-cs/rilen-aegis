@@ -34,7 +34,11 @@ assistant_name = "RILEN"
 
 intro = "RILEN online. Hello " + name + ". How can I help?"
 print(intro)
-speak(intro)
+try:
+    speak(intro)
+except KeyboardInterrupt:
+    print("\nCtrl+C received during startup. Closing RILEN...")
+    sys.exit(0)
 
 while True:
     if aegis_process is not None and aegis_process.poll() is not None:
