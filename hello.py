@@ -69,6 +69,9 @@ while True:
         if not wake_word_found:
             print("Waiting for the word RILEN...")
             continue
+    except KeyboardInterrupt:
+        print("\nCtrl+C received. Closing RILEN...")
+        command = "exit"
     except sr.WaitTimeoutError:
             continue
     except sr.UnknownValueError:
