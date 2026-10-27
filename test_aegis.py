@@ -70,6 +70,19 @@ class TestFirewallChecks(unittest.TestCase):
         self.assertIsNone(result)
         self.assertEqual(mock_run.call_args.kwargs["timeout"], 15)
 
+    def test_unexpected_firewall_output_returns_unknown(self):
+        unexpected_result = CompletedProcess(
+            args=[],
+            returncode=0,
+            stdout="Unexpected output\n",
+            stderr=""
+        )
+
+        with patch("aegis.subprocess.run", return_value=unexpected_result):
+            result = aegis.check_firewall()
+
+        self.assertIsNone(result)
+
 class TestDefenderChecks(unittest.TestCase):
 
     def test_defender_timeout_returns_unknown(self):

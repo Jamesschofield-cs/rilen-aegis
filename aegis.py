@@ -33,8 +33,35 @@ def check_firewall():
     if firewall.returncode != 0 or not firewall.stdout.strip():
         return None
 
-    firewall_ok = "False" not in firewall.stdout
-    return firewall_ok
+    profiles = {}
+
+    for line in firewall.stdout.splitlines():
+        parts = line.split()
+
+        # Skip blank lines and PowerShell table headings.
+        if not parts or parts == ["Name", "Enabled"]:
+            continue
+        if all(set(part) == {"-"} for part in parts):
+            continue
+
+        if len(parts) != 2:
+            return None
+
+        profile, enabled = parts
+
+        if profile not in ("Domain", "Private", "Public"):
+            return None
+        if enabled not in ("True", "False"):
+            return None
+        if profile in profiles:
+            return None
+
+        profiles[profile] = enabled == "True"
+
+    if set(profiles) != {"Domain", "Private", "Public"}:
+        return None
+
+    return all(profiles.values())
 
 def check_defender():
 

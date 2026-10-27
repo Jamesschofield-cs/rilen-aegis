@@ -166,9 +166,15 @@ The twelfth test verifies that a Windows Firewall command timeout returns an unk
 
 The thirteenth test verifies that a Microsoft Defender command timeout returns unknown values for protection status and security intelligence freshness. Both timeout tests confirm that the command has a 15-second timeout.
 
-All thirteen tests use simulated command results.
+The fourteenth test verifies that unexpected firewall output returns
+an unknown result rather than incorrectly reporting protection as enabled.
+
+Manual verification: the updated check read the Windows Firewall table
+successfully. All three profiles were enabled, and AEGIS returned True.
+
+All fourteen tests use simulated command results.
 They do not run PowerShell or change Windows security settings.
-Test result: 13 automated tests passed.
+Test result: 14 automated tests passed.
 
 ## Voice Help
 
