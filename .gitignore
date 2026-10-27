@@ -1,3 +1,6 @@
 __pycache__/
 .vscode/
 logs/
+.env
+.env.*
+!.env.example
